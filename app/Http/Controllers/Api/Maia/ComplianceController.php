@@ -44,7 +44,7 @@ class ComplianceController extends Controller
         }
 
         echo 'Cumplimiento por sucursal actualizada y creada<br>';
-        
+
     }
 
     public static function sellerCompliance()
@@ -82,7 +82,7 @@ class ComplianceController extends Controller
         }
 
        echo 'Cumplimiento por vendedor actualizado y creado<br>';
-        
+
     }
 
     public static function employedOfBranch()
@@ -105,7 +105,7 @@ class ComplianceController extends Controller
                     $employed_branch->last_name = $m_employed_branch->primerapellido.' '.$m_employed_branch->segundoapellido;
                     $employed_branch->dk_position = $m_employed_branch->dk_cargo;
                     $employed_branch->position = $m_employed_branch->nombre;
-                    $employed_branch->employed_dk = $m_employed_branch->empleado_dk;
+                    $employed_branch->employee_dk = $m_employed_branch->empleado_dk;
                     $employed_branch->user_state_id = 1;
                     $employed_branch->update();
                 }else{
@@ -115,7 +115,7 @@ class ComplianceController extends Controller
                         'last_name' => $m_employed_branch->primerapellido.' '.$m_employed_branch->segundoapellido,
                         'dk_position' => $m_employed_branch->dk_cargo,
                         'position' => $m_employed_branch->nombre,
-                        'employed_dk' => $m_employed_branch->empleado_dk,
+                        'employee_dk' => $m_employed_branch->empleado_dk,
                         'user_state_id' => 1,
                     ]);
                 }
@@ -125,7 +125,7 @@ class ComplianceController extends Controller
         }
 
         echo 'Empleado por sucursal actualizados y creados<br>';
-        
+
     }
 
     public static function deleteEmployedByBranch()
