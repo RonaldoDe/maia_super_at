@@ -16,59 +16,59 @@ class MasterController extends Controller
     {
 
         //usuarios de login
-        echo 'Insertando usuarios<br>';
+        error_log('Insertando usuarios');
         $users = UsersController::insertUsers();
         //usuarios de la app
         $users_mobile = UsersController::insertMobileUsers();
         //usuarios de la web
         $users_web = UsersController::insertWebUsers();
         //actualizar estados de los usuarios
-        echo 'Actualizando estados<br>';
+        error_log('Actualizando estados');
         $users_update = UsersController::updateUsers();
         //regiones
-        echo 'Insertando regiones<br>';
+        error_log('Insertando regiones');
         $region = AreasController::regions();
         //zonas
-        echo 'Insertando zonas<br>';
+        error_log('Insertando zonas');
         $zones = AreasController::zones();
         //sucursales
-        echo 'Insertando sucursales<br>';
+        error_log('Insertando sucursales');
         $branch_offices = AreasController::branchOffices();
         //eliminar sucursales que no estan en maia
-        echo 'Cambiando estados a las sucursales<br>';
+        error_log('Cambiando estados a las sucursales');
         $delete_branch = AreasController::deleteBranch();
         //Asignar zona a la region
-        echo 'Insertando zonas a las regiones<br>';
+        error_log('Insertando zonas a las regiones');
         $assign_zone_to_region = AreasController::regionZones();
         //Asignar region a los coordinadores
-        echo 'Asignando regiones a los usuarios<br>';
+        error_log('Asignando regiones a los usuarios');
         $user_region = UserAreaController::userRegion();
         //Asignar zonas a los supervisores
-        echo 'Asignando zonas a los usuarios<br>';
+        error_log('Asignando zonas a los usuarios');
         $user_zones = UserAreaController::userZone();
         //Asignar sucursales a los administradores de drogueria
-        echo 'Asignando sucursales a los usuarios<br>';
+        error_log('Asignando sucursales a los usuarios');
         $user_zones = UserAreaController::userBranch();
         //cumplimiento por sucursal
-        echo 'Cumplimiento por sucursal<br>';
+        error_log('Cumplimiento por sucursal');
         $compliance_branchs = ComplianceController::complianceByBranch();
         //Cumplimiento por trabajadores
-        echo 'Cumplimiento por vendedores<br>';
+        error_log('Cumplimiento por vendedores');
         $compliance_sellers = ComplianceController::sellerCompliance();
         //Empleados por sucursal
-        echo 'Empleados por sucursal<br>';
+        error_log('Empleados por sucursal');
         $employed_branch = ComplianceController::employedOfBranch();
         //Eliminar Empleados inactivos por sucursal
-        echo 'Eliminando empleados por sucursal<br>';
+        error_log('Eliminando empleados por sucursal');
         $delete_employed_branch = ComplianceController::deleteEmployedByBranch();
         //laboratorios
-        echo 'Insertando laboratorios<br>';
+        error_log('Insertando laboratorios');
         $labs = OtherController::labs();
         //productos
-        echo 'Insertando productos<br>';
+        error_log('Insertando productos');
         $product = OtherController::products();
         //Productos inactivos
-        echo 'Insertando descativando productos<br>';
+        error_log('Insertando descativando productos');
         $inactive_product = OtherController::inactiveProducts();
     }
 }
