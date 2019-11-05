@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\Maia;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Modelos\UserCompany;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Models\RoleUser;
+use App\Models\UserMaster;
 
 class UsersController extends Controller
 {
@@ -30,7 +30,7 @@ class UsersController extends Controller
             ->first();
 
             if($users){
-                $user_update = User::on('super_at_master')->where('user_dk', $m_user->DK_empleado)->first();
+                $user_update = UserMaster::on('super_at_master')->where('user_dk', $m_user->DK_empleado)->first();
                 if($user_update){
                     $user_update->name = $m_user->primernombre.' '.$m_user->segundonombre;
                     $user_update->last_name = $m_user->primerapellido.' '.$m_user->segundoapellido;
@@ -40,7 +40,7 @@ class UsersController extends Controller
                     $user_update->state_id = 1;
                     $user_update->update();
                     if($user_update){
-                        $company_user = UserCompany::where('user_id', $user_update->id)->first();
+                        $company_user = User::where('user_id', $user_update->id)->first();
                         if($company_user){
                             $company_user->name = $m_user->primernombre.' '.$m_user->segundonombre;
                             $company_user->last_name = $m_user->primerapellido.' '.$m_user->segundoapellido;
@@ -52,7 +52,7 @@ class UsersController extends Controller
                     }
                 }
             }else{
-                $user_create = User::on('super_at_master')->create([
+                $user_create = UserMaster::on('super_at_master')->create([
                     'name' => $m_user->primernombre.' '.$m_user->segundonombre,
                     'last_name' => $m_user->primerapellido.' '.$m_user->segundoapellido,
                     'dni' => $m_user->idempleado_ID,
@@ -64,7 +64,7 @@ class UsersController extends Controller
                 ]);
 
                 if($user_create){
-                    $user_company = UserCompany::create([
+                    $user_company = User::create([
                         'name' => $m_user->primernombre.' '.$m_user->segundonombre,
                         'last_name' => $m_user->primerapellido.' '.$m_user->segundoapellido,
                         'phone' => $m_user->telresidencia,
