@@ -17,7 +17,7 @@ class UsersController extends Controller
         ->select('e.DK as DK_empleado', 'e.estadoempleado_OID', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia', 'c.nombre')
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.estadoempleado_OID', '!=', 115341)
-        ->whereIn('c.codigo', ['004', '005', '074', '171', '274'])
+        ->whereIn('c.codigo', ['003', '004', '005', '111', '071', '174', '178', '179', '180', '182', '204', '226', '274'])
         ->where('e.DK', '!=', 11788977)
         ->get();
 
@@ -48,7 +48,7 @@ class UsersController extends Controller
                 ]);
             }
         }
-        
+
         echo 'Usuario actualizados<br>';
     }
 
@@ -82,7 +82,7 @@ class UsersController extends Controller
                             'user_id' => $user->id,
                             'role_id' => 4
                             ]);
-                            
+
                     }else{
                         $role_user_supervisor = RoleUser::create([
                             'user_id' => $user->id,
@@ -111,12 +111,12 @@ class UsersController extends Controller
             if($user){
                 $role_user = RoleUser::where('user_id', $user->id)->first();
                 if($role_user){
-                    
+
                     $role_user->role_id = 3;
                     $role_user->update();
-                
+
                 }else{
-                    
+
                     $role_user_assistant = RoleUser::create([
                         'user_id' => $user->id,
                         'role_id' => 3
