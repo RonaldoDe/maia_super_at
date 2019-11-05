@@ -121,7 +121,7 @@ class UserAreaController extends Controller
 
             }
         }
-        echo 'Zona asiganada al usuario<br>';
+        echo 'Sucursales asiganada al usuario<br>';
 
     }
 }
