@@ -107,12 +107,12 @@ class UserAreaController extends Controller
                     if($user_role){
                         $user_branch = UserBranch::where('user_id', $user_role->id)->first();
                         if($user_branch){
-                            $user_branch->zone_id = $branch->id;
+                            $user_branch->branch_office_id = $branch->id;
                             $user_branch->update();
                         }else{
                             $user_branch_create = UserBranch::create([
-                                'zone_id' => $branch->id,
-                                'role_user_id' => $user_role->id,
+                                'branch_office_id' => $branch->id,
+                                'user_id' => $user_role->id,
                             ]);
                         }
 
