@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Maia;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Modelos\UserCompany;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Models\RoleUser;
@@ -24,28 +25,56 @@ class UsersController extends Controller
         $password = '$2y$10$u4CCshmLkKB8Ij1S5p61ceI9f1RwtteyGAKSaI3J1mOcun4qwG81W';
 
         foreach ($m_users as $m_user) {
-            $users = DB::table('users')
+            $users = DB::connection('super_at_master')->table('users')
             ->where('user_dk', $m_user->DK_empleado)
             ->first();
 
             if($users){
-                $user_update = User::where('user_dk', $m_user->DK_empleado)->first();
+                $user_update = User::on('super_at_master')->where('user_dk', $m_user->DK_empleado)->first();
                 if($user_update){
-                    $user_update->name = $m_user->primernombre;
+                    $user_update->name = $m_user->primernombre.' '.$m_user->segundonombre;
+                    $user_update->last_name = $m_user->primerapellido.' '.$m_user->segundoapellido;
                     $user_update->email = $m_user->correoelectronico;
-                    $user_update->cc_dni = $m_user->idempleado_ID;
-                    $user_update->user_state_id = 1;
+                    $user_update->dni = $m_user->idempleado_ID;
+                    $user_update->company_id = 17;
+                    $user_update->state_id = 1;
                     $user_update->update();
+                    if($user_update){
+                        $company_user = UserCompany::where('user_id', $user_update->id)->first();
+                        if($company_user){
+                            $company_user->name = $m_user->primernombre.' '.$m_user->segundonombre;
+                            $company_user->last_name = $m_user->primerapellido.' '.$m_user->segundoapellido;
+                            $company_user->email = $m_user->correoelectronico;
+                            $company_user->cc_dni = $m_user->idempleado_ID;
+                            $company_user->user_state_id = 1;
+                            $company_user->update();
+                        }
+                    }
                 }
             }else{
-                $user_create = User::create([
-                    'name' => $m_user->primernombre,
+                $user_create = User::on('super_at_master')->create([
+                    'name' => $m_user->primernombre.' '.$m_user->segundonombre,
+                    'last_name' => $m_user->primerapellido.' '.$m_user->segundoapellido,
+                    'dni' => $m_user->idempleado_ID,
+                    'user_dk' => $m_user->DK_empleado,
                     'email' => $m_user->correoelectronico,
                     'password' => $password,
-                    'cc_dni' => $m_user->idempleado_ID,
-                    'user_dk' => $m_user->DK_empleado,
-                    'user_state_id' => 1,
+                    'company_id' => 17,
+                    'state_id' => 1,
                 ]);
+
+                if($user_create){
+                    $user_company = UserCompany::create([
+                        'name' => $m_user->primernombre.' '.$m_user->segundonombre,
+                        'last_name' => $m_user->primerapellido.' '.$m_user->segundoapellido,
+                        'phone' => $m_user->telresidencia,
+                        'cc_dni' => $m_user->idempleado_ID,
+                        'email' => $m_user->correoelectronico,
+                        'user_state_id' => 1,
+                        'user_dk' => $m_user->DK_empleado,
+                        'user_id' => $user_create->id,
+                    ]);
+                }
             }
         }
 

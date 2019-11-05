@@ -76,6 +76,19 @@ return [
             'strict' => false,
         ],
 
+        'super_at_master' => [
+            'driver' => 'mysql',
+            'host' => '127.0.0.1',
+            'port' => env('DB_PORT', '3306'),
+            'database' => 'super_at_master_test',
+            'username' => 'binario',
+            'password' => 'ks89wTy6Cf.9qw3VlL0zgmw',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
