@@ -139,7 +139,7 @@ class ComplianceController extends Controller
         ->get();
 
         foreach ($m_employeds_branch as $m_employed_branch) {
-            $employed_branch = EmployedOfBranchOffice::where('employed_dk', $m_employed_branch->empleado_dk)->where('user_state_id', 1)->first();
+            $employed_branch = EmployedOfBranchOffice::where('employee_dk', $m_employed_branch->empleado_dk)->where('user_state_id', 1)->first();
             if($employed_branch){
                 $employed_branch->user_state_id = 2;
                 $employed_branch->update();
