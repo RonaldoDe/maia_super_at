@@ -9,6 +9,6 @@ class BranchOffice extends Model
     protected $table = 'branch_offices';
     public $timestamps = false;
     protected $fillable = [
-        'zone_id', 'code', 'name', 'address', 'length', 'latitude', 'state', 'zone_dk', 'branch_office_dk'
+        'zone_id', 'code', 'name', 'address', 'longitude', 'latitude', 'state', 'zone_dk', 'branch_office_dk'
     ];
 }

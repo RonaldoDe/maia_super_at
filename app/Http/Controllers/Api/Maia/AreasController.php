@@ -47,7 +47,7 @@ class AreasController extends Controller
         ->join('cargoempleado as c', 'c.DK', 'e.cargoempleado_OID')
         ->where('e.estadoempleado_OID', '!=', 115341)
         ->get();
-        
+
         foreach ($m_zones as $m_zone) {
             $zone = Zone::where('zone_dk', $m_zone->DK_zona)->first();
             if($zone){
@@ -56,7 +56,7 @@ class AreasController extends Controller
                 $zone->state_id = 1;
                 $zone->update();
             }else{
-                
+
                 $zone_create = Zone::create([
                     'name' => $m_zone->nombresuper,
                     'zone_dk' => $m_zone->DK_zona,
@@ -94,7 +94,7 @@ class AreasController extends Controller
                     }
                 }
             }
-            
+
         }
 
         echo 'Zonas asignadas a su region<br>';
@@ -114,11 +114,11 @@ class AreasController extends Controller
         ->where('s.Dk', '!=', 11778795)
         ->get();
 
-        
+
         foreach ($m_branchs as $m_branch) {
             $branchs = BranchOffice::select('zone_id', 'branch_office_dk', 'id')->where('branch_office_dk', $m_branch->Dk)->first();
             $zone = Zone::select('id', 'zone_dk')->where('zone_dk', $m_branch->zonasupervision_LINK)->first();
-            if($branchs){   
+            if($branchs){
                 if($zone){
                     $branchs->zone_id = $zone->id;
                 }
@@ -126,7 +126,7 @@ class AreasController extends Controller
                 $branchs->code = $m_branch->codigosuc;
                 $branchs->name = $m_branch->nombresuc;
                 $branchs->address = $m_branch->direccionsuc;
-                $branchs->length = '';
+                $branchs->longitude = '';
                 $branchs->latitude = $m_branch->latitud;
                 $branchs->state = 1;
                 $branchs->zone_dk = $m_branch->zonasupervision_LINK;
@@ -152,7 +152,7 @@ class AreasController extends Controller
     {
         $branchs = BranchOffice::where('id', '!=', 644)->get();
 
-        
+
         foreach ($branchs as $branch) {
             $m_branchs = DB::connection('maiaDB')
             ->table('sucursal as s')
