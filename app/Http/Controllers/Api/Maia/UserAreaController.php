@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Maia;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Modelos\BranchOffice;
 use App\Models\RoleUser;
 use App\Models\UserZone;
 use App\Models\Zone;
@@ -13,6 +12,7 @@ use App\Models\UserBranch;
 use App\Models\UserRegion;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\BranchOffice;
 
 class UserAreaController extends Controller
 {
