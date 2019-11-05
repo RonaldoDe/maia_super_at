@@ -98,7 +98,7 @@ class ComplianceController extends Controller
         foreach ($m_employeds_branch as $m_employed_branch) {
             $branch_office = BranchOffice::where('branch_office_dk', $m_employed_branch->sucursal_link)->first();
             if($branch_office){
-                $employed_branch = EmployedOfBranchOffice::where('employed_dk', $m_employed_branch->empleado_dk)->first();
+                $employed_branch = EmployedOfBranchOffice::where('employee_dk', $m_employed_branch->empleado_dk)->first();
                 if($employed_branch){
                     $employed_branch->branch_offices_id = $branch_office->id;
                     $employed_branch->name = $m_employed_branch->primernombre. ' ' .$m_employed_branch->segundonombre;
