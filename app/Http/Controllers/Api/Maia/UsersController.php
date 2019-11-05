@@ -30,7 +30,6 @@ class UsersController extends Controller
             if($user_update){
                 $user_update->name = $m_user->primernombre.' '.$m_user->segundonombre;
                 $user_update->last_name = $m_user->primerapellido.' '.$m_user->segundoapellido;
-                $user_update->email = $m_user->correoelectronico;
                 $user_update->dni = $m_user->idempleado_ID;
                 $user_update->company_id = 17;
                 $user_update->state_id = 1;
@@ -40,7 +39,6 @@ class UsersController extends Controller
                     if($company_user){
                         $company_user->name = $m_user->primernombre.' '.$m_user->segundonombre;
                         $company_user->last_name = $m_user->primerapellido.' '.$m_user->segundoapellido;
-                        $company_user->email = $m_user->correoelectronico;
                         $company_user->cc_dni = $m_user->idempleado_ID;
                         $company_user->user_state_id = 1;
                         $company_user->update();
