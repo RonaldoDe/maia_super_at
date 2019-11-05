@@ -1,0 +1,149 @@
+<?php
+
+namespace App\Http\Controllers\Api\Maia;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use App\User;
+use App\Models\RoleUser;
+
+class UsersController extends Controller
+{
+    public static function insertUsers()
+    {
+        $m_users = DB::connection('maiaDB')
+        ->table('empleado as e')
+        ->select('e.DK as DK_empleado', 'e.estadoempleado_OID', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia', 'c.nombre')
+        ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
+        ->where('e.estadoempleado_OID', '!=', 115341)
+        ->whereIn('c.codigo', ['004', '005', '074', '171', '274'])
+        ->where('e.DK', '!=', 11788977)
+        ->get();
+
+        $password = '$2y$10$u4CCshmLkKB8Ij1S5p61ceI9f1RwtteyGAKSaI3J1mOcun4qwG81W';
+
+        foreach ($m_users as $m_user) {
+            $users = DB::table('users')
+            ->where('user_dk', $m_user->DK_empleado)
+            ->first();
+
+            if($users){
+                $user_update = User::where('user_dk', $m_user->DK_empleado)->first();
+                if($user_update){
+                    $user_update->name = $m_user->primernombre;
+                    $user_update->email = $m_user->correoelectronico;
+                    $user_update->cc_dni = $m_user->idempleado_ID;
+                    $user_update->user_state_id = 1;
+                    $user_update->update();
+                }
+            }else{
+                $user_create = User::create([
+                    'name' => $m_user->primernombre,
+                    'email' => $m_user->correoelectronico,
+                    'password' => $password,
+                    'cc_dni' => $m_user->idempleado_ID,
+                    'user_dk' => $m_user->DK_empleado,
+                    'user_state_id' => 1,
+                ]);
+            }
+        }
+        
+        echo 'Usuario actualizados<br>';
+    }
+
+    public static function insertMobileUsers()
+    {
+        $m_users = DB::connection('maiaDB')
+        ->table('empleado as e')
+        ->select('e.estadoempleado_OID', 'c.nombre', 'c.codigo', 'e.DK as DK_empleado', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia')
+        ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
+        ->where('e.estadoempleado_OID', 115342)
+        ->where('e.zonasupervision_link', '!=', 'null')
+        ->whereIn('c.codigo', ['074','004','171','274', '297'])
+        ->whereNotIn('e.DK', [11788977, 11786426, 335694, 336188, 265828])
+        ->get();
+
+        foreach ($m_users as $m_user) {
+            $user = User::where('user_dk', $m_user->DK_empleado)->where('user_state_id', 1)->first();
+            if($user){
+                $role_user = RoleUser::where('user_id', $user->id)->first();
+                if($role_user){
+                    if($m_user->nombre == 'ASISTENTE ADMINISTRATIVO'){
+                        $role_user->role_id = 4;
+                        $role_user->update();
+                    }else{
+                        $role_user->role_id = 2;
+                        $role_user->update();
+                    }
+                }else{
+                    if($m_user->nombre == 'ASISTENTE ADMINISTRATIVO'){
+                        $role_user_assistant = RoleUser::create([
+                            'user_id' => $user->id,
+                            'role_id' => 4
+                            ]);
+                            
+                    }else{
+                        $role_user_supervisor = RoleUser::create([
+                            'user_id' => $user->id,
+                            'role_id' => 2
+                        ]);
+                    }
+                }
+            }
+
+        }
+        echo 'Roles asignados a los de la app<br>';
+
+    }
+
+    public static function insertWebUsers()
+    {
+        $m_users = DB::connection('maiaDB')
+        ->table('empleado as e')
+        ->select('e.DK as DK_empleado', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia')
+        ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
+        ->where('e.estadoempleado_OID', 115342)
+        ->where('c.codigo', '005')
+        ->get();
+        foreach ($m_users as $m_user) {
+            $user = User::where('user_dk', $m_user->DK_empleado)->where('user_state_id', 1)->first();
+            if($user){
+                $role_user = RoleUser::where('user_id', $user->id)->first();
+                if($role_user){
+                    
+                    $role_user->role_id = 3;
+                    $role_user->update();
+                
+                }else{
+                    
+                    $role_user_assistant = RoleUser::create([
+                        'user_id' => $user->id,
+                        'role_id' => 3
+                    ]);
+                }
+            }
+
+        }
+        echo 'Roles asignados a los de la web<br>';
+    }
+
+    public static function updateUsers()
+    {
+        $m_users = DB::connection('maiaDB')
+        ->table('empleado as e')
+        ->select('e.DK AS DK_empleado')
+        ->where('e.estadoempleado_OID', 115341)
+        ->get();
+
+        foreach ($m_users as $m_user) {
+            $users = User::where('user_dk', $m_user->DK_empleado)->where('user_state_id', 1)->first();
+            if($users){
+                $users->user_state_id = 2;
+                $users->update();
+            }
+        }
+
+        echo 'Estado de usuarios actualizados<br>';
+    }
+}
