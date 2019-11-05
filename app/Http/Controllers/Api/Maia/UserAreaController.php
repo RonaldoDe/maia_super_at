@@ -97,6 +97,8 @@ class UserAreaController extends Controller
         ->whereIn('e.cargoempleado_OID', ['115403', '5299972', '5653194', '5653195', '5653242', '5653196', '5653220', '5653198'])
         ->get();
 
+        error_log(count($m_user_branch));
+
         foreach ($m_user_branch as $m_user_branch) {
             $user = User::where('user_dk', $m_user_branch->dk_empleado)->where('user_state_id', 1)->first();
 
