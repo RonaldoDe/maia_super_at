@@ -18,7 +18,7 @@ class UsersController extends Controller
         ->select('e.DK as DK_empleado', 'e.estadoempleado_OID', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia', 'c.nombre')
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.estadoempleado_OID', '!=', 115341)
-        ->whereIn('c.codigo', ['003', '004', '005', '111', '071', '174', '178', '179', '180', '182', '204', '226', '274'])
+        ->whereIn('c.codigo', ['003', '004', '005', '111', '071', '074', '171', '174', '178', '179', '180', '182', '204', '226', '274', '297'])
         ->where('e.DK', '!=', 11788977)
         ->get();
 
@@ -122,7 +122,7 @@ class UsersController extends Controller
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.sucursal_link', '!=', 'null')
         ->where('e.estadoempleado_OID', 115342)
-        ->whereIn('c.codigo', ['003','111','178','179', '180', '182', '204', '226'])
+        ->whereIn('c.codigo', ['003', '111', '178','179', '180', '182', '204', '226'])
         ->get();
 
         foreach ($m_users_admins as $m_user) {
