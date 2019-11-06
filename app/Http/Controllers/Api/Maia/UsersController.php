@@ -18,7 +18,7 @@ class UsersController extends Controller
         ->select('e.DK as DK_empleado', 'e.estadoempleado_OID', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia', 'c.nombre')
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.estadoempleado_OID', '!=', 115341)
-        ->whereIn('c.codigo', ['003', '004', '005', '111', '071', '074', '171', '174', '178', '179', '180', '182', '204', '226', '274', '297'])
+        ->whereIn('c.codigo', ['003', '004', '332', '111', '071', '074', '171', '174', '178', '179', '180', '182', '204', '226', '274', '297'])
         ->where('e.DK', '!=', 11788977)
         ->get();
 
