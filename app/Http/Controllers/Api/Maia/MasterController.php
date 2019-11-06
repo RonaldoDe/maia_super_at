@@ -50,7 +50,7 @@ class MasterController extends Controller
         error_log('Asignando sucursales a los usuarios');
         $user_zones = UserAreaController::userBranch();
         //cumplimiento por sucursal
-        error_log('Cumplimiento por sucursal');
+        /*error_log('Cumplimiento por sucursal');
         $compliance_branchs = ComplianceController::complianceByBranch();
         //Cumplimiento por trabajadores
         error_log('Cumplimiento por vendedores');
@@ -69,6 +69,6 @@ class MasterController extends Controller
         $product = OtherController::products();
         //Productos inactivos
         error_log('Insertando descativando productos');
-        $inactive_product = OtherController::inactiveProducts();
+        $inactive_product = OtherController::inactiveProducts();*/
     }
 }

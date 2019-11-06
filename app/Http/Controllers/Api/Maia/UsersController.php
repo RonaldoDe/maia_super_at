@@ -83,7 +83,7 @@ class UsersController extends Controller
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.estadoempleado_OID', 115342)
         ->where('e.zonasupervision_link', '!=', 'null')
-        ->whereIn('c.codigo', ['074','004','171','274', '297'])
+        ->whereIn('c.codigo', ['003', '111', '178', '179', '180', '182', '204', '226', '074','004','171','274', '297'])
         ->whereNotIn('e.DK', [11788977, 11786426, 335694, 336188, 265828])
         ->get();
 
@@ -95,6 +95,9 @@ class UsersController extends Controller
                     if($m_user->nombre == 'ASISTENTE ADMINISTRATIVO'){
                         $role_user->role_id = 4;
                         $role_user->update();
+                    }else if($m_user->codigo == '003' || $m_user->codigo == '111' || $m_user->codigo == '178' || $m_user->codigo == '179' || $m_user->codigo == '180' || $m_user->codigo == '182' || $m_user->codigo == '204' || $m_user->codigo == '226'){
+                        $role_user->role_id = 5;
+                        $role_user->update();
                     }else{
                         $role_user->role_id = 2;
                         $role_user->update();
@@ -104,6 +107,12 @@ class UsersController extends Controller
                         $role_user_assistant = RoleUser::create([
                             'user_id' => $user->id,
                             'role_id' => 4
+                            ]);
+
+                    }else if($m_user->codigo == '003' || $m_user->codigo == '111' || $m_user->codigo == '178' || $m_user->codigo == '179' || $m_user->codigo == '180' || $m_user->codigo == '182' || $m_user->codigo == '204' || $m_user->codigo == '226'){
+                        $role_user_assistant = RoleUser::create([
+                            'user_id' => $user->id,
+                            'role_id' => 5
                             ]);
 
                     }else{
