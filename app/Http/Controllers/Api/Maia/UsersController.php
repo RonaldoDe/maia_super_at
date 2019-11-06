@@ -83,7 +83,7 @@ class UsersController extends Controller
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.estadoempleado_OID', 115342)
         ->where('e.zonasupervision_link', '!=', 'null')
-        ->whereIn('c.codigo', ['003', '111', '178', '179', '180', '182', '204', '226', '074','004','171','274', '297'])
+        ->whereIn('c.codigo', ['074','004','171','274', '297'])
         ->whereNotIn('e.DK', [11788977, 11786426, 335694, 336188, 265828])
         ->get();
 
@@ -94,9 +94,6 @@ class UsersController extends Controller
                 if($role_user){
                     if($m_user->nombre == 'ASISTENTE ADMINISTRATIVO'){
                         $role_user->role_id = 4;
-                        $role_user->update();
-                    }else if($m_user->codigo == '003' || $m_user->codigo == '111' || $m_user->codigo == '178' || $m_user->codigo == '179' || $m_user->codigo == '180' || $m_user->codigo == '182' || $m_user->codigo == '204' || $m_user->codigo == '226'){
-                        $role_user->role_id = 5;
                         $role_user->update();
                     }else{
                         $role_user->role_id = 2;
@@ -109,12 +106,6 @@ class UsersController extends Controller
                             'role_id' => 4
                             ]);
 
-                    }else if($m_user->codigo == '003' || $m_user->codigo == '111' || $m_user->codigo == '178' || $m_user->codigo == '179' || $m_user->codigo == '180' || $m_user->codigo == '182' || $m_user->codigo == '204' || $m_user->codigo == '226'){
-                        $role_user_assistant = RoleUser::create([
-                            'user_id' => $user->id,
-                            'role_id' => 5
-                            ]);
-
                     }else{
                         $role_user_supervisor = RoleUser::create([
                             'user_id' => $user->id,
@@ -125,6 +116,34 @@ class UsersController extends Controller
             }
 
         }
+        $m_users_admins = DB::connection('maiaDB')
+        ->table('empleado as e')
+        ->select('e.estadoempleado_OID', 'c.nombre', 'c.codigo', 'e.DK as DK_empleado', 'e.codigoempleado_ID', 'e.sucursal_link')
+        ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
+        ->where('e.sucursal_link', '!=', 'null')
+        ->where('e.estadoempleado_OID', 115342)
+        ->whereIn('c.codigo', ['003','111','178','179', '180', '182', '204', '226'])
+        ->get();
+
+        foreach ($m_users_admins as $m_user) {
+            $user = User::where('user_dk', $m_user->DK_empleado)->where('user_state_id', 1)->first();
+            if($user){
+                $role_user = RoleUser::where('user_id', $user->id)->first();
+                if($role_user){
+                    $role_user->role_id = 5;
+                    $role_user->update();
+                }else{
+
+                    $role_user_supervisor = RoleUser::create([
+                        'user_id' => $user->id,
+                        'role_id' => 5
+                    ]);
+
+                }
+            }
+
+        }
+
         echo 'Roles asignados a los de la app<br>';
 
     }
