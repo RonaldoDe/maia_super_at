@@ -155,7 +155,7 @@ class UsersController extends Controller
         ->select('e.DK as DK_empleado', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia')
         ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
         ->where('e.estadoempleado_OID', 115342)
-        ->where('c.codigo', '005')
+        ->where('c.codigo', '332')
         ->get();
         foreach ($m_users as $m_user) {
             $user = User::where('user_dk', $m_user->DK_empleado)->where('user_state_id', 1)->first();
