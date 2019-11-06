@@ -14,4 +14,3 @@ use Illuminate\Http\Request;
 */
 
 Route::get('UpdateMaia', 'Api\Maia\MasterController@masterAll');
-Route::get('test', 'Api\Maia\UserAreaController@userBranch');
