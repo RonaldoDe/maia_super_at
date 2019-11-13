@@ -150,10 +150,21 @@ class AreasController extends Controller
 
     public static function deleteBranch()
     {
-        $branchs = BranchOffice::where('id', '!=', 644)->get();
+
+        $m_branchs = DB::connection('maiaDB')
+        ->table('sucursal as s')
+        ->select('s.Dk')
+        ->get();
+
+        $m_branch_array = array();
+        foreach ($m_branchs as $m_branch) {
+            array_push($m_branch_array, $m_branch->Dk);
+        }
 
 
-        foreach ($branchs as $branch) {
+        $branchs = BranchOffice::whereNotIn('branch_office_dk', $m_branch_array)->update(['state' => 2]);
+
+        /*foreach ($branchs as $branch) {
             $m_branchs = DB::connection('maiaDB')
             ->table('sucursal as s')
             ->select('s.Dk')
@@ -164,7 +175,7 @@ class AreasController extends Controller
                 $branch_delete->state = 2;
                 $branch_delete->update();
             }
-        }
+        }*/
         echo 'Sucursal desactivadas<br>';
     }
 
