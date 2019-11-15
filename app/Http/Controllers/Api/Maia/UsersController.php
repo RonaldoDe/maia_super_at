@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api\Maia;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\BranchOfficeAdministrator;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Models\RoleUser;
 use App\Models\UserMaster;
+use App\Models\UserRegion;
+use App\Models\UserZone;
 
 class UsersController extends Controller
 {
@@ -93,6 +96,14 @@ class UsersController extends Controller
                 $role_user = RoleUser::where('user_id', $user->id)->first();
                 if($role_user){
                     if($m_user->nombre == 'ASISTENTE ADMINISTRATIVO'){
+                        #validar el rol que tenia antes para eliminar las (sucursales, zonas, regiones)
+
+                        if($role_user->role_id == 3 || $role_user->role_id == 1){
+                            $delete_regions = UserRegion::where('role_user_id', $role_user->id)->delete();
+                        }else if($role_user->role_id == 5){
+                            $delete_zones = BranchOfficeAdministrator::where('user_id', $role_user->id)->delete();
+                        }
+
                         $role_user->role_id = 4;
                         $role_user->update();
                     }else{
@@ -130,6 +141,13 @@ class UsersController extends Controller
             if($user){
                 $role_user = RoleUser::where('user_id', $user->id)->first();
                 if($role_user){
+                    #validar el rol que tenia antes para eliminar las (sucursales, zonas, regiones)
+
+                    if($role_user->role_id == 3 || $role_user->role_id == 1){
+                        $delete_regions = UserRegion::where('role_user_id', $role_user->id)->delete();
+                    }else if($role_user->role_id == 2 || $role_user->role_id == 4){
+                        $delete_zones = UserZone::where('role_user_id', $role_user->id)->delete();
+                    }
                     $role_user->role_id = 5;
                     $role_user->update();
                 }else{
@@ -162,7 +180,13 @@ class UsersController extends Controller
             if($user){
                 $role_user = RoleUser::where('user_id', $user->id)->first();
                 if($role_user){
+                    #validar el rol que tenia antes para eliminar las (sucursales, zonas, regiones)
 
+                    if($role_user->role_id == 2 || $role_user->role_id == 4){
+                        $delete_regions = UserZone::where('role_user_id', $role_user->id)->delete();
+                    }else if($role_user->role_id == 5){
+                        $delete_zones = BranchOfficeAdministrator::where('user_id', $role_user->id)->delete();
+                    }
                     $role_user->role_id = 3;
                     $role_user->update();
 
