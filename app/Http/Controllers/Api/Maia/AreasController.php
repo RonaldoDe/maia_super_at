@@ -126,8 +126,6 @@ class AreasController extends Controller
                 $branchs->code = $m_branch->codigosuc;
                 $branchs->name = $m_branch->nombresuc;
                 $branchs->address = $m_branch->direccionsuc;
-                $branchs->longitude = '';
-                $branchs->latitude = $m_branch->latitud;
                 $branchs->state = 1;
                 $branchs->zone_dk = $m_branch->zonasupervision_LINK;
                 $branchs->branch_office_dk = $m_branch->Dk;
@@ -162,7 +160,7 @@ class AreasController extends Controller
         }
 
 
-        $branchs = BranchOffice::whereNotIn('branch_office_dk', $m_branch_array)->update(['state' => 2]);
+        $branchs = BranchOffice::whereNotIn('branch_office_dk', $m_branch_array)->whereNotIn('id', [631, 619, 627])->update(['state' => 2]);
 
         /*foreach ($branchs as $branch) {
             $m_branchs = DB::connection('maiaDB')
