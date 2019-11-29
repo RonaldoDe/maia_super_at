@@ -121,14 +121,16 @@ class AreasController extends Controller
             if($branchs){
                 if($zone){
                     $branchs->zone_id = $zone->id;
+                }else{
+                    $branchs->zone_id = '';
                 }
-                $branchs->zone_id = '';
                 $branchs->code = $m_branch->codigosuc;
                 $branchs->name = $m_branch->nombresuc;
                 $branchs->address = $m_branch->direccionsuc;
                 $branchs->state = 1;
                 $branchs->zone_dk = $m_branch->zonasupervision_LINK;
                 $branchs->branch_office_dk = $m_branch->Dk;
+                $branchs->update();
             }else{
                 $branch_create = BranchOffice::create([
                     'zone_id' => $zone->id,
