@@ -15,6 +15,10 @@ class MasterController extends Controller
     public function masterAll()
     {
 
+        if(request('ronaldo') != "c<g@'%hvDg3\QN_^"){
+            return response()->json(['response' => ['error' => 'Alto chico']], 404);
+        }
+
         //usuarios de login
         error_log('Insertando usuarios');
         $users = UsersController::insertUsers();
