@@ -69,6 +69,8 @@ class MasterController extends Controller
         $product = OtherController::products();
         //Productos inactivos
         error_log('Insertando descativando productos');
-        $inactive_product = OtherController::inactiveProducts();
+        //$inactive_product = OtherController::inactiveProducts();
+
+        return response()->json(['response' => 'Happy'], 200);
     }
 }
