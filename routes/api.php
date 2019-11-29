@@ -14,3 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::get('UpdateMaia', 'Api\Maia\MasterController@masterAll');
+Route::get('testy', function(){
+    return response()->json(['response' => 'Yes'], 200);
+});
