@@ -28,7 +28,7 @@ class UsersController extends Controller
         $password = '$2y$10$u4CCshmLkKB8Ij1S5p61ceI9f1RwtteyGAKSaI3J1mOcun4qwG81W';
 
         foreach ($m_users as $m_user) {
-            $user_update = UserMaster::on('super_at_master')->where('email', $m_user->correoelectronico)->first();
+            $user_update = UserMaster::on('super_at_master')->where('email', $m_user->correoelectronico)->whereNotIn('id', [664, 663, 41, 42, 72, 661, 81])->first();
 
             if($user_update){
                 $user_update->name = $m_user->primernombre.' '.$m_user->segundonombre;
