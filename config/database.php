@@ -80,7 +80,7 @@ return [
             'driver' => 'mysql',
             'host' => '127.0.0.1',
             'port' => env('DB_PORT', '3306'),
-            'database' => 'master_test',
+            'database' => 'master',
             'username' => 'root',
             'password' => 's12piderwick',
             'charset' => 'utf8',
