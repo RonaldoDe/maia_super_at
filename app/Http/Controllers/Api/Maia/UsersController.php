@@ -23,6 +23,7 @@ class UsersController extends Controller
         ->where('e.estadoempleado_OID', '!=', 115341)
         ->whereIn('c.codigo', ['003', '004', '332', '111', '071', '074', '171', '174', '178', '179', '180', '182', '204', '226', '274', '297'])
         ->where('e.DK', '!=', 11788977)
+	->where('e.DK', '!=', 335694)
         ->get();
 
         $password = '$2y$10$u4CCshmLkKB8Ij1S5p61ceI9f1RwtteyGAKSaI3J1mOcun4qwG81W';
