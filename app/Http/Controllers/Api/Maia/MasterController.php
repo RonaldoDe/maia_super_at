@@ -72,8 +72,10 @@ class MasterController extends Controller
         error_log('Insertando productos');
         $product = OtherController::products();
         //Productos inactivos
-        error_log('Insertando descativando productos');
-        //$inactive_product = OtherController::inactiveProducts();
+        error_log('descativando productos');
+        $inactive_product = OtherController::inactiveProducts();
+        error_log('Verificando roles');
+        $validate_role = UsersController::validateNewRole();
 
         return response()->json(['response' => 'Happy'], 200);
     }
