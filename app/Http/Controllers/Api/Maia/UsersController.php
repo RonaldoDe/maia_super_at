@@ -222,4 +222,33 @@ class UsersController extends Controller
 
         echo 'Estado de usuarios actualizados<br>';
     }
+
+    public static function validateNewRole()
+    {
+
+        # $user_update = UserMaster::on('super_at_master')->whereNotIn('id', [664, 663, 41, 42, 72, 661, 81])->first();
+        $users = User::where('user_state_id', 1)
+        ->whereNotIn('user_dk', [0])
+        ->get();
+
+        $maia_users = DB::connection('maiaDB')
+        ->table('empleado as e')
+        ->select('e.DK as DK_empleado', 'e.estadoempleado_OID', 'e.idempleado_ID', 'e.codigoempleado_ID', 'e.correoelectronico', 'e.fotoempleado', 'e.primernombre', 'e.segundonombre', 'e.primerapellido', 'e.segundoapellido', 'e.telresidencia', 'c.nombre')
+        ->join('cargoempleado as c', 'e.cargoempleado_OID', 'c.DK')
+        ->where('e.estadoempleado_OID', '!=', 115341)
+        ->whereIn('c.codigo', ['003', '004', '332', '111', '071', '074', '171', '174', '178', '179', '180', '182', '204', '226', '274', '297'])
+        ->get();
+
+        foreach ($users as $user) {
+
+            #$users = User::where('user_dk', $user->DK_empleado)->where('user_state_id', 1)->first();
+            $maia_user = collect($maia_users)->where('DK_empleado', $user->user_dk)->first();
+            if(!$maia_user){
+                $user->user_state_id = 2;
+                $user->update();
+            }
+        }
+
+        echo 'Estado de usuarios actualizados<br>';
+    }
 }
