@@ -244,6 +244,10 @@ class UsersController extends Controller
             #$users = User::where('user_dk', $user->DK_empleado)->where('user_state_id', 1)->first();
             $maia_user = collect($maia_users)->where('DK_empleado', $user->user_dk)->first();
             if(!$maia_user){
+                $user_update = UserMaster::on('super_at_master')->where('id', $user->user_id)->first();
+                $user_update->state_id = 2;
+                $user_update->update();
+
                 $user->user_state_id = 2;
                 $user->update();
             }
